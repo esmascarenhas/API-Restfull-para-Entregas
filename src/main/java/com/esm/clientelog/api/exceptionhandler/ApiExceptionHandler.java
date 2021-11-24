@@ -3,6 +3,7 @@ package com.esm.clientelog.api.exceptionhandler;
 import com.esm.clientelog.domain.exception.EntidadeNaoEncontradaException;
 import com.esm.clientelog.domain.exception.NegocioException;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+//@NoArgsConstructor
 @AllArgsConstructor
 @ControllerAdvice //tratar as exceções de forma global para todos os controladores
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -30,16 +32,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
              HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Problema problema = new Problema();
+
         List<Problema.Campo> campos = new ArrayList<>();
 
         for (ObjectError error : ex.getBindingResult().getAllErrors()){
             String nome = ((FieldError) error).getField();
             String mensagem = messageSource.getMessage(error, LocaleContextHolder.getLocale());
 
-            campos.add(new Problema.Campo(nome,mensagem));
+           campos.add(new Problema.Campo(nome, mensagem));
         }
-
+        Problema problema = new Problema();
         problema.setStatus(status.value());
         problema.setDataHora(OffsetDateTime.now());
         problema.setTitulo("Um ou mais campos está invalido. Faça o preenchimento correto e tente novamente.");
@@ -58,7 +60,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }
-
+    @ExceptionHandler(NegocioException.class)
     public ResponseEntity<Object>handleNegocio(NegocioException ex, WebRequest request){
         HttpStatus status = HttpStatus.BAD_REQUEST;
 

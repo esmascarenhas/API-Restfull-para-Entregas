@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -18,24 +19,24 @@ public class ClienteInput {
 
 
 
-    @NotBlank
+    @NotNull
     @Size(min = 2,max = 60)
     private String nome;
 
     @Email
-    @NotBlank
+    @NotNull
     @Size(min = 2,max = 255)
     private String email;
 
-    @NotBlank
+    @NotNull
     @Size(min = 2,max = 20)
     private String telefone;
 
-    @NotBlank
+    @NotNull
     @Size(min = 2,max = 255)
     private String endereco;
 
-    @NotBlank
+    @NotNull
     @CPF
     private String cpf;
 }

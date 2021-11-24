@@ -1,4 +1,4 @@
-package com.esm.clientelog.api.mapper;
+        package com.esm.clientelog.api.mapper;
 
 
 import com.esm.clientelog.api.controller.ClienteController;
@@ -52,7 +52,7 @@ public class EntregaMapper {
              .map(this::tomodel)
              .collect(Collectors.toList()));
 
-        entregaModel.add(linkTo(methodOn(EntregaController.class)
+        entregaModel.add(linkTo(methodOn(EntregaController.class)       
                 .listar()).withSelfRel());
      return entregaModel;
 
